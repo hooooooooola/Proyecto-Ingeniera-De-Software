@@ -38,11 +38,13 @@ class DatabaseConnection:
             self.connection.close()
             print("Conexión cerrada.")
 
+    # Metodo para enviar instrucciones a la base de datos
     def executeQuery(self, query: str, params: tuple = None) -> None:
         with self.connection.cursor() as cursor:
             cursor.execute(query, params)
             self.connection.commit()
 
+    # Metodo para enviar consultas a la base de datos
     def fetchResults(self, query: str, params: tuple = None) -> list:
         with self.connection.cursor() as cursor:
             cursor.execute(query, params)

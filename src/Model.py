@@ -12,7 +12,7 @@ class Modelo:
         except Exception as e:
             print("Error al insertar:", e)
 
-    def read(self, id_user: int = None) -> None:
+    def read(self, id_user: int = None) -> list:
         if id_user is not None:
             query = "SELECT * FROM users WHERE id = %s"
             params = (id_user,)
@@ -20,18 +20,38 @@ class Modelo:
             query = "SELECT * FROM users"
             params = ()
 
+        print(query)
+
+        # Try para las excepciones
         try:
-            results = self.db.executeQuery(query, params)
-            for valores in results:
-                print(valores)
+            self.db.executeQuery(query, params)
+            results = self.db.fetchResults(query)
+            return results
 
         except Exception as e:
             print("Error al obtener registros:", e)
+            return []
 
 
     def update(self, data) -> None:
-        pass
+        query = "UPDATE users SET name = %s WHERE id = %s"
+        params = (data.get('name'), data.get('id'))
+        try:
+            self.db.executeQuery(query, params)
+            print("Update exitoso")
+        except Exception as e:
+            print("Error al actualizar registros:", e)
 
     def delete(self, data) -> None:
-        pass
+        query = "DELETE FROM users WHERE id = %s"
+        params = (data.get('id'),)
+        try:
+            self.db.executeQuery(query, params)
+            print("Delete exitoso")
+        except Exception as e:
+            print("Error al eliminar registros:", e)
+
+    def limpiarDatabase(self):
+        query = "TRUNCATE TABLE users"
+        self.db.executeQuery(query)
 
