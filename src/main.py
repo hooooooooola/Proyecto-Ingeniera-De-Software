@@ -19,12 +19,20 @@ def main():
     # Instancia de Modelo
     modelo = Modelo(db_connection)
 
-
     # Create
-    data = {"name": "javier", "age": 20, "rut": 1234, "password": "hola", "rol": 1}
+    data = {"name": "chao", "age": 90, "rut": 12234, "password": "hola", "rol": 1}
     modelo.create(data)
 
+    # Read
+    lista = modelo.read()
+    for i in lista:
+        i = str(i).replace('(', '').replace(')', '').replace(',', '').replace("'", '')
+        i = i.split(' ')
+        print(f"Id: {i[0]} - nombre: {i[1]} - edad: {i[2]} - rut: {i[3]} - contraseña: {i[4]} - rol: {i[5]}")
 
+
+    # Desconectar conexion
+    db_connection.disconnect()
 
 if __name__ == "__main__":
     main()
