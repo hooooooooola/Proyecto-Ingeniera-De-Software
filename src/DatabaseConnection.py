@@ -23,15 +23,15 @@ class DatabaseConnection:
     def connect(self) -> None:
         try:
             self.connection = psycopg2.connect(
-                dbname = self.database_name,
-                user = self.user,
-                password = self.password,
-                host = self.host,
-                port = self.port
+                dbname=self.database_name,
+                user=self.user,
+                password=self.password,
+                host=self.host,
+                port=self.port
             )
-            print("Conexion exitosa")
-        except psycopg2.Error:
-            print(f"Error al conectar con la base de datos {psycopg2.Error}")
+            print("Conexión exitosa")
+        except psycopg2.Error as e:
+            print(f"Error al conectar con la base de datos: {e}")
 
     def disconnect(self) -> None:
         if self.connection:

@@ -7,7 +7,7 @@ def main():
     database_config = {
         "database_name": "proyecto_software",
         "user": "postgres",
-        "password": "admin1234",
+        "password": "1234",
         "host": "localhost",
         "port": "5432"
     }
