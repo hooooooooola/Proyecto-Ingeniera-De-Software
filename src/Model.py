@@ -5,8 +5,8 @@ class Modelo:
         self.db = DatabaseConnection
 
     def create(self, data: dict) -> None:
-        query = "INSERT INTO users (name, age, rut, password, rol) VALUES (%s, %s, %s, %s, %s)"
-        params = (data.get('name'), data.get('age'), data.get('rut'), data.get('password'), data.get('rol'))
+        query = "INSERT INTO users (name, age, rut, password, rol, numero) VALUES (%s, %s, %s, %s, %s, %s)"
+        params = (data.get('name'), data.get('age'), data.get('rut'), data.get('password'), data.get('rol'), data.get('numero'))
         try:
             self.db.executeQuery(query, params)
         except Exception as e:
@@ -32,10 +32,9 @@ class Modelo:
             print("Error al obtener registros:", e)
             return []
 
-
     def update(self, data) -> None:
-        query = "UPDATE users SET name = %s WHERE id = %s"
-        params = (data.get('name'), data.get('id'))
+        query = "UPDATE users SET name = %s, numero = %s WHERE id = %s"
+        params = (data.get('name'), data.get('numero'), data.get('id'))
         try:
             self.db.executeQuery(query, params)
             print("Update exitoso")
@@ -54,4 +53,3 @@ class Modelo:
     def limpiarDatabase(self):
         query = "TRUNCATE TABLE users"
         self.db.executeQuery(query)
-
