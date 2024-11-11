@@ -1,7 +1,7 @@
-from DatabaseConnection import DatabaseConnection
+from database.DatabaseConnection import DatabaseConnection
 
 class Modelo:
-    def __init__(self, DatabaseConnection):
+    def __init__(self, DatabaseConnection: DatabaseConnection):
         self.db = DatabaseConnection
 
     def create(self, data: dict) -> None:

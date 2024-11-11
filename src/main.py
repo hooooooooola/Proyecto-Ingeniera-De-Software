@@ -1,7 +1,8 @@
 from psycopg2 import connect
 
-from DatabaseConnection import DatabaseConnection
-from Model import Modelo
+from database.DatabaseConnection import DatabaseConnection
+from database.Pacientes import Paciente
+
 
 def main():
     database_config = {
@@ -9,7 +10,8 @@ def main():
         "user": "postgres",
         "password": "admin1234",
         "host": "localhost",
-        "port": "5432"
+        "port": "5432",
+        "charset": "UTF8"
     }
 
     # Establecer conexion
@@ -17,7 +19,7 @@ def main():
     db_connection.connect()
 
     # Instancia de Modelo
-    modelo = Modelo(db_connection)
+    modelo = Paciente(db_connection)
 
     # Create
     data = {"name": "chao", "age": 90, "rut": 12234, "password": "hola", "rol": 1}
