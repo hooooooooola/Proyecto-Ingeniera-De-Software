@@ -7,13 +7,15 @@ class User:
     def __init__(self, DatabaseConnection) -> None:
         self.db = DatabaseConnection
 
+    @abstractmethod
     def create(self, data: dict) -> list:
-        query = "INSERT INTO users (name, age, rut, password, rol) VALUES (%s, %s, %s, %s, %s)"
-        params = (data.get('name'), data.get('age'), data.get('rut'), data.get('password'), data.get('rol'))
-        try:
-            self.db.executeQuery(query, params)
-        except Exception as e:
-            print("Error al insertar:", e)
+        # query = "INSERT INTO users (name, age, rut, password, rol) VALUES (%s, %s, %s, %s, %s)"
+        # params = (data.get('name'), data.get('age'), data.get('rut'), data.get('password'), data.get('rol'))
+        # try:
+        #     self.db.executeQuery(query, params)
+        # except Exception as e:
+        #     print("Error al insertar:", e)
+        pass
     
     @abstractmethod
     def read(self, data: dict = None) -> list:

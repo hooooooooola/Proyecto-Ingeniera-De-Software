@@ -6,6 +6,14 @@ class Medico(User):
     def __init__(self, DatabaseConnection) -> None:
         super().__init__(DatabaseConnection)
     
+    def create(self, data: dict) -> None:
+        query = "INSERT INTO users (name, age, rut, password, rol) VALUES (%s, %s, %s, %s, 2)"
+        params = (data.get('name'), data.get('age'), data.get('rut'), data.get('password'),)
+        try:
+            self.db.executeQuery(query, params)
+        except Exception as e:
+            print("Error al insertar:", e)
+    
     def read(self, data: dict = None) -> list:
         # id_user: int = None, rol: int = 0 necesito eso s
 
