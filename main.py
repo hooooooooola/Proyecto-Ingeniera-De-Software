@@ -1,9 +1,9 @@
 from psycopg2 import connect
 
-from database.DatabaseConnection import DatabaseConnection
-from database.Pacientes import Paciente
-from database.Medicos import Medico
-from database.Administrador import Administrador
+from src.database.DatabaseConnection import DatabaseConnection
+from src.database.Pacientes import Paciente
+from src.database.Medicos import Medico
+from src.database.Administrador import Administrador
 
 
 def main():

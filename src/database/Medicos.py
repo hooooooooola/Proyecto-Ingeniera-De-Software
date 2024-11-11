@@ -1,4 +1,4 @@
-from database.User import *
+from src.database.User import *
 from abc import abstractmethod
 
 class Medico(User):

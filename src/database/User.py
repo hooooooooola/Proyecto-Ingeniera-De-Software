@@ -1,4 +1,4 @@
-from database.DatabaseConnection import DatabaseConnection
+from src.database.DatabaseConnection import DatabaseConnection
 from abc import ABC, abstractmethod
 
 class User:

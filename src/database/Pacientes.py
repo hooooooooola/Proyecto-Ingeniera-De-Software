@@ -1,4 +1,4 @@
-from database.User import User
+from src.database.User import User
 from abc import abstractmethod
 
 class Paciente(User):
