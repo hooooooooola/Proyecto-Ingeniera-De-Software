@@ -1,3 +1,10 @@
+/* Lo primero que deben ejecutar es esto */
+CREATE TABLE roles(
+	id int PRIMARY KEY,
+	rol varchar(20)
+);
+
+/* Lo segundo que deben ejecutar es esto */
 CREATE TABLE users(
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) not null,
@@ -8,13 +15,12 @@ CREATE TABLE users(
 	rol INTEGER REFERENCES roles(id)
 );
 
-CREATE TABLE roles(
-	id int PRIMARY KEY,
-	rol varchar(20)
-);
+/* COMANDO QUE PUEDEN SERVIR */
 
+/* Eliminar la tabla users*/
 DROP TABLE users;
 
+/* Metodo para insertar manualmente valores, la CRUD ya tiene su metodo propio */
 INSERT INTO roles (id, rol) VALUES (1, 'admin'), (2, 'especialista'), (3, 'paciente');
 
 SELECT * FROM users;
