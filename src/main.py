@@ -2,6 +2,8 @@ from psycopg2 import connect
 
 from database.DatabaseConnection import DatabaseConnection
 from database.Pacientes import Paciente
+from database.Medicos import Medico
+from database.Administrador import Administrador
 
 
 def main():
@@ -11,7 +13,6 @@ def main():
         "password": "admin1234",
         "host": "localhost",
         "port": "5432",
-        "charset": "UTF8"
     }
 
     # Establecer conexion
@@ -21,11 +22,17 @@ def main():
     # Instancia de Modelo
     modelo = Paciente(db_connection)
 
-    # Create
-    data = {"name": "chao", "age": 90, "rut": 12234, "password": "hola", "rol": 1}
-    modelo.create(data)
 
     # Read
+    lista = modelo.read()
+    for i in lista:
+        i = str(i).replace('(', '').replace(')', '').replace(',', '').replace("'", '')
+        i = i.split(' ')
+        print(f"Id: {i[0]} - nombre: {i[1]} - edad: {i[2]} - rut: {i[3]} - contraseña: {i[4]} - rol: {i[5]}")
+    
+    # Read
+    modelo = Administrador(db_connection)
+
     lista = modelo.read()
     for i in lista:
         i = str(i).replace('(', '').replace(')', '').replace(',', '').replace("'", '')

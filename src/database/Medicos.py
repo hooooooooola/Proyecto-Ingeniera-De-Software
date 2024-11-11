@@ -9,8 +9,8 @@ class Medico(User):
     def read(self, data: dict = None) -> list:
         # id_user: int = None, rol: int = 0 necesito eso s
 
-        query = f"SELECT * FROM users WHERE rol = 2 AND id = %s" if data.get('id') else f"SELECT * FROM users WHERE rol = 2"
-        params = (data.get('id'),) if data.get('id') else ()
+        query = f"SELECT * FROM users WHERE rol = 2 AND id = %s" if data != None else f"SELECT * FROM users WHERE rol = 2"
+        params = (data.get('id'),) if data != None else ()
 
         print(query)
 
