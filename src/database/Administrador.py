@@ -25,7 +25,7 @@ class Administrador(User):
         # Try para las excepciones
         try:
             self.db.executeQuery(query, params)
-            results = self.db.fetchResults(query)
+            results = self.db.fetchResults(query, params)
             return results
 
         except Exception as e:

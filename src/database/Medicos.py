@@ -17,15 +17,15 @@ class Medico(User):
     def read(self, data: dict = None) -> list:
         # id_user: int = None, rol: int = 0 necesito eso s
 
-        query = f"SELECT * FROM users WHERE rol = 2 AND id = %s" if data != None else f"SELECT * FROM users WHERE rol = 2"
-        params = (data.get('id'),) if data != None else ()
+        query = "SELECT * FROM users WHERE rol = 2 AND id=%s" if data else "SELECT * FROM users WHERE rol = 2"
+        params = (data.get("id"),) if data else () # (data.get("id"),) if data else ()
 
         print(query)
 
         # Try para las excepciones
         try:
             self.db.executeQuery(query, params)
-            results = self.db.fetchResults(query)
+            results = self.db.fetchResults(query, params)
             return results
 
         except Exception as e:
