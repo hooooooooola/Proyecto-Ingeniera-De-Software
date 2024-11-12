@@ -24,7 +24,8 @@ def main():
 
 
     # Read
-    lista = modelo.read()
+    dicc = {"id": 51}
+    lista = modelo.read(dicc)
     for i in lista:
         i = str(i).replace('(', '').replace(')', '').replace(',', '').replace("'", '')
         i = i.split(' ')
@@ -33,11 +34,23 @@ def main():
     # Read
     modelo = Administrador(db_connection)
 
-    lista = modelo.read()
+    dicc = {"id": 47}
+    lista = modelo.read(dicc)
     for i in lista:
         i = str(i).replace('(', '').replace(')', '').replace(',', '').replace("'", '')
         i = i.split(' ')
         print(f"Id: {i[0]} - nombre: {i[1]} - edad: {i[2]} - rut: {i[3]} - contraseña: {i[4]} - rol: {i[5]}")
+
+
+    modelo = Medico(db_connection)
+
+    dicc = {"id": 50}
+    lista = modelo.read(dicc)
+    for i in lista:
+        i = str(i).replace('(', '').replace(')', '').replace(',', '').replace("'", '')
+        i = i.split(' ')
+        print(f"Id: {i[0]} - nombre: {i[1]} - edad: {i[2]} - rut: {i[3]} - contraseña: {i[4]} - rol: {i[5]}")
+
 
 
     # Desconectar conexion
