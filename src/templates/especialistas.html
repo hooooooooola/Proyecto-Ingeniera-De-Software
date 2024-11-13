@@ -5,11 +5,33 @@
 {% block style %}
     {{ super() }}
     <style>
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .search-bar input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .search-bar button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
         .specialist-card {
             display: flex;
-            flex-direction: column; 
-            justify-content: space-between; 
-            background-color: #f9f9f9;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #2c5c5937;
             background-size: cover;
             background-position: center;
             border-radius: 10px;
@@ -20,6 +42,12 @@
             height: 200px;
             padding: 7px;
             position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .specialist-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px #107370a0;
         }
 
         .specialist-info {
@@ -29,8 +57,8 @@
             border-radius: 5px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; 
-            height: 100%; 
+            justify-content: space-between;
+            height: 100%;
         }
 
         .specialist-info h3 {
@@ -50,14 +78,107 @@
             border: none;
             border-radius: 15px;
             cursor: pointer;
-            margin-top: auto; 
+            margin-top: auto;
             margin-bottom: 10px;
             margin-left: auto;
             margin-right: auto;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
         .specialist-info button:hover {
             background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+            height: 350px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            transform: translateY(20px);
+            animation: slideUp 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-content p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #333;
+        }
+
+        .reserve-button {
+            background-color: #148bb9;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 8px;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .reserve-button:hover {
+            background-color: #006c97;
+            transform: scale(1.1);
+        }
+
+        .reserve-button:active {
+            background-color: #004f6e;
         }
 
     </style>
@@ -75,10 +196,44 @@
             <div class="specialist-info">
                 <h3>{{ especialista.nombre }}</h3>
                 <p>{{ especialista.especialidad }}</p>
-                <button>Más Info</button>
+                <button onclick="openModal('{{ especialista.nombre }}', '{{ especialista.descripcion }}')">Más Info</button>
             </div>
         </div>
         {% endfor %}
     </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Especialista</h2>
+            <p id="modalDescription">Descripción del especialista.</p>
+            <button class="reserve-button" id="reserveButton">Reservar Hora</button>
+        </div>
+    </div>
+
 </section>
+
+<script>
+    function openModal(nombre, descripcion) {
+        var modal = document.getElementById("myModal"); 
+        modal.style.display = "flex";
+
+        document.getElementById("modalTitle").innerText = nombre;
+        document.getElementById("modalDescription").innerText = descripcion;
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        var modal = document.getElementById("myModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
 {% endblock %}
