@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Administrador{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h2>Bienvenido</h2>
+    <p>Sección exclusiva para administradores.</p>
+    <p>Aquí podras visualizar y modificar las horas de los</p>
+</section>
+<style>
+    .section {
+        max-width: 1000px;
+    }
+</style>
+<section class="section">
+    <h2>Calendario</h2>
+    <div style="border: 1px solid #000; width: 1000px; height: 700px;">
+    </div>
+</section>
+<section class="section">
+    <h2>Lista de horas</h2>
+    <div style="border: 1px solid #000; width: 500px; height: 700px;">
+    </div>
+</section>
+{% endblock %}
