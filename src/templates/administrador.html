@@ -6,7 +6,7 @@
 <section class="section">
     <h2>Bienvenido</h2>
     <p>Sección exclusiva para administradores.</p>
-    <p>Aquí podras visualizar y modificar las horas de los</p>
+    <p>Aquí podras visualizar y modificar las horas de los pacientes</p>
 </section>
 <style>
     .section {
@@ -15,8 +15,16 @@
 </style>
 <section class="section">
     <h2>Calendario</h2>
-    <div style="border: 1px solid #000; width: 1000px; height: 700px;">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <div id="calendario"></div>
+    <div style=" width: 1000px; height: 100%;">
     </div>
+    <script>
+        let calendarEl = document.getElementById('calendario');
+        let calendario = new FullCalendar.Calendar(calendarEl,{locale: 'es'})
+        calendario.render();
+    </script>
 </section>
 <section class="section">
     <h2>Lista de horas</h2>
