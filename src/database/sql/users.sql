@@ -11,8 +11,16 @@ CREATE TABLE users(
 	mail VARCHAR(100) not null,
 	age int not null,
 	rut int not null,
-	password VARCHAR(200) not null,
-	rol INTEGER REFERENCES roles(id)
+	password VARCHAR(200),
+	rol INTEGER REFERENCES roles(id) not null
+);
+
+/* Tabla medicos */
+CREATE TABLE info_medico(
+	id INTEGER REFERENCES users(id),
+	especialidad varchar(255),
+	foto varchar(255),
+	descripcion varchar(400)
 );
 
 /* COMANDO QUE PUEDEN SERVIR */
@@ -29,5 +37,8 @@ INSERT INTO users (name, mail, age, rut, password,rol) VALUES ('javier campos','
 
 /*Ver el nombre junto al rol*/
 SELECT users.name as users, roles.rol as roles from users join roles on users.rol = roles.id;
+
+/* ver info medicos */
+SELECT u.name, im.especialidad, im.foto, im.descripcion FROM users u JOIN info_medico im ON u.id = im.id
 
 truncate table users;
