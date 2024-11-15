@@ -9,6 +9,9 @@ def inicio():
 @app.route('/servicios')
 def servicios():
     return render_template('servicios.html')
+@app.route('/administrador')
+def administrador():
+    return render_template('administrador.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
