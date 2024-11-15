@@ -1,6 +1,7 @@
 # Ignorar carpetas
 .vscode/
-__pycache/
+__pycache__/
 **/__pycache__/
-/.idea/
+.idea/
 /.venv/
+/.idea/

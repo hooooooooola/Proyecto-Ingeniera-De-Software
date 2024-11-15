@@ -1,4 +1,3 @@
-import string
 
 import psycopg2
 
@@ -13,6 +12,7 @@ class DatabaseConnection:
     # Inicializar conexion
     def __init__(self, database_name: str = None, user: str = None,
                  password: str = None, host: str = None, port: int = None):
+        
         self.database_name = database_name
         self.user = user
         self.password = password

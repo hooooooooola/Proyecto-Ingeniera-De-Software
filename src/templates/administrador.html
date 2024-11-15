@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Administrador{% endblock %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+<section class="section">
+    <h2>Bienvenido</h2>
+    <p>Sección exclusiva para administradores.</p>
+    <p>Aquí podras visualizar y modificar las horas de los pacientes</p>
+</section>
+<style>
+    .section {
+        max-width: 1000px;
+    }
+    .contenedor{
+        display: flex;
+        justify-content: space-between;
+    }
+    .seleccion {
+        background-color: rgb(170, 220, 247 );
+    }
+</style>
+<div class="contenedor">
+    <section class="section">
+        <h2>Calendario</h2>
+        <div id="calendario"></div>
+        <div style=" width: 1000px;"></div>
+        <script>
+            let calendarEl = document.getElementById('calendario');
+            let calendario = new FullCalendar.Calendar(calendarEl,{
+                locale: 'es',
+                dateClick: function(info) {
+                    lista.gotoDate(info.dateStr);
+                    let highlightedDates = document.querySelectorAll('.seleccion');
+                    highlightedDates.forEach(function(date) {
+                        date.classList.remove('seleccion');
+                    });
+                    info.dayEl.classList.add('seleccion');
+                }});
+            calendario.render();
+        </script>
+    </section>
+    <section class="section">
+        <h2>Lista de horas</h2>
+        <div id="lista"></div>
+        <div style="width: 350px;"></div>
+        <script>
+            let listaEl = document.getElementById('lista');
+            let lista = new FullCalendar.Calendar(listaEl,{locale: 'es', initialView: 'listDay'})
+            lista.render();
+        </script>
+    </section>
+</div>
+{% endblock %}
