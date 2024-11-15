@@ -18,6 +18,9 @@
         display: flex;
         justify-content: space-between;
     }
+    .seleccion {
+        background-color: rgb(170, 220, 247 );
+    }
 </style>
 <div class="contenedor">
     <section class="section">
@@ -26,7 +29,16 @@
         <div style=" width: 1000px;"></div>
         <script>
             let calendarEl = document.getElementById('calendario');
-            let calendario = new FullCalendar.Calendar(calendarEl,{locale: 'es'})
+            let calendario = new FullCalendar.Calendar(calendarEl,{
+                locale: 'es',
+                dateClick: function(info) {
+                    lista.gotoDate(info.dateStr);
+                    let highlightedDates = document.querySelectorAll('.seleccion');
+                    highlightedDates.forEach(function(date) {
+                        date.classList.remove('seleccion');
+                    });
+                    info.dayEl.classList.add('seleccion');
+                }});
             calendario.render();
         </script>
     </section>
