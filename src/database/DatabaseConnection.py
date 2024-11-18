@@ -29,14 +29,12 @@ class DatabaseConnection:
                 host = self.host,
                 port = self.port
             )
-            print("Conexion exitosa")
         except psycopg2.Error:
             print(f"Error al conectar con la base de datos {psycopg2.Error}")
 
     def disconnect(self) -> None:
         if self.connection:
             self.connection.close()
-            print("Conexión cerrada.")
 
     # Metodo para enviar instrucciones a la base de datos
     def executeQuery(self, query: str, params: tuple = None) -> None:

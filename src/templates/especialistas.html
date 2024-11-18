@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+
+{% block title %}Especialistas{% endblock %}
+
+{% block style %}
+    {{ super() }}
+    <style>
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .search-bar input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .search-bar button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .specialist-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #2c5c5937;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            text-align: center;
+            width: 150px;
+            height: 200px;
+            padding: 7px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .specialist-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px #107370a0;
+        }
+
+        .specialist-info {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .specialist-info h3 {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .specialist-info p {
+            font-size: 0.9em;
+            color: #ddd;
+        }
+
+        .specialist-info button {
+            background-color: #007bff;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: auto;
+            margin-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .specialist-info button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+            height: 350px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform: translateY(20px);
+            animation: slideUp 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-content p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #333;
+        }
+
+        .reserve-button {
+            background-color: #148bb9;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 8px;
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .reserve-button:hover {
+            background-color: #006c97;
+            transform: scale(1.1);
+        }
+
+        .reserve-button:active {
+            background-color: #004f6e;
+        }
+
+        #formModal .modal-content {
+            width: 400px;
+            height: auto;
+        }
+
+        #formModal form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: stretch;
+        }
+
+        #formModal label {
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        #formModal input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        
+    </style>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <!-- Buscador (hay que ponerle funcionalidad) --> 
+    <div class="search-bar">
+        <input type="text" placeholder="Buscar Especialidad">
+        <button>Buscar</button>
+    </div>
+    
+    <!-- Lista de Especialistas -->
+    <div class="specialists-grid">
+        {% for especialista in especialistas %}
+        <div class="specialist-card" style="background-image: url('{{ url_for('static', filename='images/' + especialista.foto) }}');">
+            <div class="specialist-info">
+                <h3>{{ especialista.nombre }}</h3>
+                <p>{{ especialista.especialidad }}</p>
+                <button onclick="openModal('{{ especialista.nombre }}', '{{ especialista.descripcion }}')">Más Info</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Modal del medico -->
+    <div id="MedicModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Especialista</h2>
+            <p id="modalDescription">Descripción del especialista.</p>
+            <button class="reserve-button" onclick="openFormModal()">Reservar Hora</button>
+        </div>
+    </div>
+
+    <!-- Modal para formulario de reserva -->
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFormModal()">&times;</span>
+            <h2>Reservar Hora</h2>
+            <form id="reservationForm" method="POST" action="{{ url_for('reservar_hora') }}">
+                <div>
+                    <label for="rut">RUT:</label>
+                    <input type="text" id="rut" name="rut" required>
+                </div>
+                <div>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div>
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" required>
+                </div>
+                <div>
+                    <label for="edad">Edad:</label>
+                    <input type="number" id="edad" name="edad" required>
+                </div>
+                <button type="submit" class="reserve-button">Enviar</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    function openModal(nombre, descripcion) {
+        var modal = document.getElementById("MedicModal");
+        modal.style.display = "flex";
+
+        document.getElementById("modalTitle").innerText = nombre;
+        document.getElementById("modalDescription").innerText = descripcion;
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("MedicModal");
+        modal.style.display = "none";
+    }
+
+    function openFormModal() {
+        var formModal = document.getElementById("formModal");
+        formModal.style.display = "flex";
+
+        closeModal();
+    }
+
+    function closeFormModal() {
+        var formModal = document.getElementById("formModal");
+        formModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        var modal = document.getElementById("MedicModal");
+        var formModal = document.getElementById("formModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        } else if (event.target == formModal) {
+            formModal.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}
