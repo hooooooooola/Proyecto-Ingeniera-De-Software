@@ -5,7 +5,6 @@
 {% block style %}
     {{ super() }}
     <style>
-
         .search-bar {
             display: flex;
             justify-content: center;
@@ -27,6 +26,7 @@
             border-radius: 0 5px 5px 0;
             cursor: pointer;
         }
+
         .specialist-card {
             display: flex;
             flex-direction: column;
@@ -99,7 +99,6 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            {#display: flex;#}
             justify-content: center;
             align-items: center;
             opacity: 0;
@@ -113,7 +112,6 @@
             width: 400px;
             height: 350px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            text-align: center;
             position: relative;
             transform: translateY(20px);
             animation: slideUp 0.5s ease-out forwards;
@@ -165,7 +163,7 @@
             border: none;
             border-radius: 8px;
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             right: 20px;
             cursor: pointer;
             font-size: 1.2em;
@@ -181,15 +179,46 @@
             background-color: #004f6e;
         }
 
+        #formModal .modal-content {
+            width: 400px;
+            height: auto;
+        }
+
+        #formModal form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: stretch;
+        }
+
+        #formModal label {
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        #formModal input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        
     </style>
 {% endblock %}
 
 {% block content %}
 <section class="section">
+    <!-- Buscador (hay que ponerle funcionalidad) --> 
     <div class="search-bar">
         <input type="text" placeholder="Buscar Especialidad">
         <button>Buscar</button>
     </div>
+    
+    <!-- Lista de Especialistas -->
     <div class="specialists-grid">
         {% for especialista in especialistas %}
         <div class="specialist-card" style="background-image: url('{{ url_for('static', filename='images/' + especialista.foto) }}');">
@@ -202,21 +231,47 @@
         {% endfor %}
     </div>
 
-    <!-- Modal -->
-    <div id="myModal" class="modal">
+    <!-- Modal del medico -->
+    <div id="MedicModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2 id="modalTitle">Especialista</h2>
             <p id="modalDescription">Descripción del especialista.</p>
-            <button class="reserve-button" id="reserveButton">Reservar Hora</button>
+            <button class="reserve-button" onclick="openFormModal()">Reservar Hora</button>
         </div>
     </div>
 
+    <!-- Modal para formulario de reserva -->
+    <div id="formModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFormModal()">&times;</span>
+            <h2>Reservar Hora</h2>
+            <form id="reservationForm" method="POST" action="{{ url_for('reservar_hora') }}">
+                <div>
+                    <label for="rut">RUT:</label>
+                    <input type="text" id="rut" name="rut" required>
+                </div>
+                <div>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div>
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" required>
+                </div>
+                <div>
+                    <label for="edad">Edad:</label>
+                    <input type="number" id="edad" name="edad" required>
+                </div>
+                <button type="submit" class="reserve-button">Enviar</button>
+            </form>
+        </div>
+    </div>
 </section>
 
 <script>
     function openModal(nombre, descripcion) {
-        var modal = document.getElementById("myModal"); 
+        var modal = document.getElementById("MedicModal");
         modal.style.display = "flex";
 
         document.getElementById("modalTitle").innerText = nombre;
@@ -224,16 +279,30 @@
     }
 
     function closeModal() {
-        var modal = document.getElementById("myModal");
+        var modal = document.getElementById("MedicModal");
         modal.style.display = "none";
     }
 
+    function openFormModal() {
+        var formModal = document.getElementById("formModal");
+        formModal.style.display = "flex";
+
+        closeModal();
+    }
+
+    function closeFormModal() {
+        var formModal = document.getElementById("formModal");
+        formModal.style.display = "none";
+    }
+
     window.onclick = function(event) {
-        var modal = document.getElementById("myModal");
+        var modal = document.getElementById("MedicModal");
+        var formModal = document.getElementById("formModal");
         if (event.target == modal) {
             modal.style.display = "none";
+        } else if (event.target == formModal) {
+            formModal.style.display = "none";
         }
     }
 </script>
-
 {% endblock %}
