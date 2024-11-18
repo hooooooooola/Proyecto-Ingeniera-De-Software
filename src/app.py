@@ -55,9 +55,6 @@ def reservar_hora():
     print(data) # Imprimir en consola pa cachar :D
 
 
-@app.route('/servicios')
-def servicios():
-    return render_template('servicios.html')
 @app.route('/administrador')
 def administrador():
     return render_template('administrador.html')
