@@ -34,3 +34,15 @@ class Medico(User):
         
     def get_rol(self) -> None:
         print("Medico")
+
+    def read_description(self) -> list:
+        query = "SELECT u.name, im.especialidad, im.foto, im.descripcion FROM users u JOIN info_medico im ON u.id = im.id"
+        params = ()
+
+        try:
+            self.db.executeQuery(query, params)
+            results = self.db.fetchResults(query, params)
+            return results
+        except Exception as e:
+            print("Error al obtener registros:", e)
+            return []

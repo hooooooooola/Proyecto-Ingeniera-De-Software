@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clínica - {% block title %} <!-- subtitulo --> {% endblock %}</title>
+
+    {% block style %}
     <style>
         body, html {
             margin: 0;
@@ -23,11 +25,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            margin-top: 15px;
+            justify-content: top;
         }
 
         header {
-            background-color: #4CAF50;
+            background-color: #19cfc6;
             color: white;
             padding: 15px 0;
             text-align: center;
@@ -36,7 +39,7 @@
         nav {
             display: flex;
             justify-content: center;
-            background-color: #333;
+            background-color: #204a48b9;
         }
 
         nav a {
@@ -47,7 +50,7 @@
         }
 
         nav a:hover {
-            background-color: #575757;
+            background-color: #386f6db9;
         }
 
         .section {
@@ -64,7 +67,78 @@
             background-color: #333;
             color: white;
         }
+
+        .section {
+            max-width: 1000px;
+            margin-top: 0px; 
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        
+
+        .specialists-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .specialist-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            text-align: center;
+            width: 180px;
+            padding: 10px;
+        }
+
+        .specialist-card img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .specialist-info {
+            padding: 10px;
+        }
+
+        .specialist-info h3 {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .specialist-info p {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .specialist-info button {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .specialist-info button:hover {
+            background-color: #0056b3;
+        }
+        
+
     </style>
+    {% endblock %}
+
+
+
+
 </head>
 <body>
     <div class="container">
@@ -74,7 +148,7 @@
 
         <nav>
             <a href="{{ url_for('inicio') }}">Inicio</a>
-            <a href="{{ url_for('servicios') }}">Servicios</a>
+            <a href="{{ url_for('especialistas') }}">Especialistas</a>
             <a href="{{ url_for('administrador') }}">Administrador</a>
         </nav>
 
