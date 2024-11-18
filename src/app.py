@@ -49,10 +49,14 @@ def especialistas():
 def reservar_hora():
     data = {
         "rut": request.form.get('rut'),
+        "mail": request.form.get('mail'),
         "nombre": request.form.get('nombre'),
         "telefono": request.form.get('telefono'),
         "edad": request.form.get('edad')
     }
+
+
+
     print(data) # Imprimir en consola pa cachar :D
 
 
