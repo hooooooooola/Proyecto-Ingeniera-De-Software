@@ -9,6 +9,7 @@ CREATE TABLE users(
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) not null,
 	mail VARCHAR(100) not null,
+    number int not null,
 	age int not null,
 	rut int not null,
 	password VARCHAR(200),

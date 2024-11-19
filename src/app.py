@@ -3,6 +3,7 @@ from flask import Flask, flash, redirect, render_template, request, jsonify, url
 
 from src.database.DatabaseConnection import DatabaseConnection
 from src.database.Medicos import Medico
+from src.database.Pacientes import Paciente
 
 database_config = {
     "database_name": "proyecto_software",
@@ -48,16 +49,25 @@ def especialistas():
 @app.route('/reservar_hora', methods=['POST'])
 def reservar_hora():
     data = {
-        "rut": request.form.get('rut'),
+        "rut": int(request.form.get('rut')),
         "mail": request.form.get('mail'),
-        "nombre": request.form.get('nombre'),
-        "telefono": request.form.get('telefono'),
-        "edad": request.form.get('edad')
+        "name": request.form.get('nombre'),
+        "number": int(request.form.get('number')),
+        "age": int(request.form.get('edad'))
     }
 
+    # Conexion base de datos
+    database = DatabaseConnection(**database_config)
+    database.connect()
 
+    modelo = Paciente(database)
+    modelo.create(data)
+
+
+    database.disconnect()
 
     print(data) # Imprimir en consola pa cachar :D
+    return render_template('inicio.html')
 
 
 @app.route('/administrador')
