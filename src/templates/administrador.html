@@ -19,8 +19,7 @@
         justify-content: space-between;
     }
     .seleccion {
-        background-color: rgb(170, 220, 247 );
-    }
+        background-color: rgb(170, 220, 247);
 </style>
 <div class="contenedor">
     <section class="section">
@@ -28,9 +27,64 @@
         <div id="lista"></div>
         <div style="width: 800px;"></div>
         <script>
-            let listaEl = document.getElementById('lista');
-            let lista = new FullCalendar.Calendar(listaEl,{locale: 'es', initialView: 'listDay'})
+            var listaEl = document.getElementById('lista');
+            var lista = new FullCalendar.Calendar(listaEl, {
+                locale: 'es',
+                initialView: 'listDay',
+                headerToolbar: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'botonañadirevento'
+                },
+                customButtons: {
+                    botonañadirevento: {
+                        text: 'Añadir Evento',
+                        click: function() {
+                            if (selectedDate) {
+                                let title = prompt('Introduce el título del evento:');
+                                if (title) {
+                                    let event = {
+                                        title: title,
+                                        start: selectedDate,
+                                        allDay: true
+                                    };
+                                    lista.addEvent(event);
+                                    saveEvent(event);
+                                }
+                            } else {
+                                alert('Por favor, selecciona una fecha en el calendario primero.');
+                            }
+                        }
+                    }
+                },
+                eventClick: function(info) {
+                    if (confirm(`¿Deseas eliminar el evento "${info.event.title}"?`)) {
+                        info.event.remove();
+                        removeEvent(info.event);
+                    }
+                }
+            });
             lista.render();
+            var selectedDate = new Date().toISOString().split('T')[0];
+            function saveEvent(event) {
+                let events = JSON.parse(localStorage.getItem('events')) || [];
+                events.push(event);
+                localStorage.setItem('events', JSON.stringify(events));
+            }
+
+            function loadEvents() {
+                let events = JSON.parse(localStorage.getItem('events')) || [];
+                events.forEach(function(event) {
+                    lista.addEvent(event);
+                });
+            }
+
+            function removeEvent(event) {
+                let events = JSON.parse(localStorage.getItem('events')) || [];
+                events = events.filter(e => e.title !== event.title || e.start !== event.start.toISOString().split('T')[0]);
+                localStorage.setItem('events', JSON.stringify(events));
+            }
+            loadEvents();
         </script>
     </section>
     <section class="section">
@@ -38,8 +92,8 @@
         <div id="calendario"></div>
         <div style=" width: 700px;"></div>
         <script>
-            let calendarEl = document.getElementById('calendario');
-            let calendario = new FullCalendar.Calendar(calendarEl,{
+            var calendarEl = document.getElementById('calendario');
+            var calendario = new FullCalendar.Calendar(calendarEl,{
                 locale: 'es',
                 dateClick: function(info) {
                     lista.gotoDate(info.dateStr);
@@ -48,6 +102,7 @@
                         date.classList.remove('seleccion');
                     });
                     info.dayEl.classList.add('seleccion');
+                    selectedDate = info.dateStr;
                 },
                 height: 800});
             calendario.render();
