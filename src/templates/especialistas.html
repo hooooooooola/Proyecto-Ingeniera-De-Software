@@ -221,11 +221,12 @@
     <!-- Lista de Especialistas -->
     <div class="specialists-grid">
         {% for especialista in especialistas %}
-        <div class="specialist-card" style="background-image: url('{{imagen}}');">
+        <div class="specialist-card" style="background-image: url('{{ especialista.foto }}');">
             <div class="specialist-info">
                 <h3>{{ especialista.nombre }}</h3>
                 <p>{{ especialista.especialidad }}</p>
                 <button onclick="openModal('{{ especialista.nombre }}', '{{ especialista.descripcion }}')">Más Info</button>
+
             </div>
         </div>
         {% endfor %}
