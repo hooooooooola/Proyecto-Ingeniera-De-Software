@@ -221,7 +221,7 @@
     <!-- Lista de Especialistas -->
     <div class="specialists-grid">
         {% for especialista in especialistas %}
-        <div class="specialist-card" style="background-image: url('{{ url_for('static', filename='images/' + especialista.foto) }}');">
+        <div class="specialist-card" style="background-image: url('{{imagen}}');">
             <div class="specialist-info">
                 <h3>{{ especialista.nombre }}</h3>
                 <p>{{ especialista.especialidad }}</p>
