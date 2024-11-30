@@ -24,7 +24,6 @@ def enviar_mensaje_usuariosms(numero):
             "Lugar: Clinica TAL TAL\n"
             "Hora: XX:XX\n"
             "-Para confirmar su asistencia puede ingresar al siguiente link\n"
-            "https:olauwu.com\n"
             "-Alternativamente puede llamar al siguiente numero\n"
             " +56937135522 \n\n"
             ),
