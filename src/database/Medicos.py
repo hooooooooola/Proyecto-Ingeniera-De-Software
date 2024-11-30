@@ -7,8 +7,8 @@ class Medico(User):
         super().__init__(DatabaseConnection)
     
     def create(self, data: dict) -> None:
-        query = "INSERT INTO users (name, age, rut, password, rol) VALUES (%s, %s, %s, %s, 2)"
-        params = (data.get('name'), data.get('age'), data.get('rut'), data.get('password'),)
+        query = "INSERT INTO users (name, mail, number, age, rut, rol) VALUES (%s, %s, %s, %s, %s, 2)"
+        params = (data.get('name'), data.get('mail'), data.get('number'), data.get('age'), data.get('rut'),)
         try:
             self.db.executeQuery(query, params)
         except Exception as e:
@@ -19,8 +19,6 @@ class Medico(User):
 
         query = "SELECT * FROM users WHERE rol = 2 AND id=%s" if data else "SELECT * FROM users WHERE rol = 2"
         params = (data.get("id"),) if data else () # (data.get("id"),) if data else ()
-
-        print(query)
 
         # Try para las excepciones
         try:

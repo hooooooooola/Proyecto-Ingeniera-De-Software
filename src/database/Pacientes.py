@@ -17,10 +17,8 @@ class Paciente(User):
     def read(self, data: dict = None) -> list:
         # id_user: int = None, rol: int = 0 necesito eso s
 
-        query = f"SELECT * FROM users WHERE rol = 3 AND id = %s" if data != None else f"SELECT * FROM users WHERE rol = 3"
-        params = (data.get('id'),) if data != None else ()
-
-        print(query)
+        query = "SELECT * FROM users WHERE rol = 3 AND id=%s" if data else "SELECT * FROM users WHERE rol = 3"
+        params = (data.get("id"),) if data else ()  # (data.get("id"),) if data else ()
 
         # Try para las excepciones
         try:
@@ -31,6 +29,10 @@ class Paciente(User):
         except Exception as e:
             print("Error al obtener registros:", e)
             return []
-        
+
+        except Exception as e:
+            print("Error al obtener registros:", e)
+            return []
+
     def get_rol(self) -> None:
         print("Paciente")

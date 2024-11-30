@@ -1,6 +1,6 @@
 from flask import Flask, flash, redirect, render_template, request, jsonify, url_for
 
-
+from src.database.Administrador import Administrador
 from src.database.DatabaseConnection import DatabaseConnection
 from src.database.Medicos import Medico
 from src.database.Pacientes import Paciente
@@ -26,7 +26,7 @@ def inicio():
 
 @app.route('/especialistas')
 def especialistas():
-    
+
     especialistas_data = []
 
     # Conexion base de datos
@@ -70,6 +70,29 @@ def reservar_hora():
     return render_template('inicio.html')
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+
+        diccionario = {'rut': request.form['rut'], 'password': request.form['password']}
+
+        database = DatabaseConnection(**database_config)
+        database.connect()
+
+        modelo = Administrador(database)
+        lista = modelo.read(diccionario)
+
+        database.disconnect()
+
+        if lista:  # Ejemplo de credenciales válidas
+            return redirect(url_for('administrador'))
+        else:
+            flash("Credenciales inválidas", "error")
+            return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+
 @app.route('/administrador')
 def administrador():
     return render_template('administrador.html')
@@ -101,7 +124,9 @@ def webhook():
 
 
 
-    
+
 if __name__ == '__main__':
+
     app.run(debug=True)
+
 

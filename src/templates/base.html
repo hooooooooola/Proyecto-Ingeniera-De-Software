@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clínica - {% block title %} <!-- subtitulo --> {% endblock %}</title>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
     {% block style %}
     <style>
         body, html {
@@ -173,7 +183,7 @@
         <nav>
             <a href="{{ url_for('inicio') }}">Inicio</a>
             <a href="{{ url_for('especialistas') }}">Especialistas</a>
-            <a href="{{ url_for('administrador') }}">Administrador</a>
+            <a href="{{ url_for('login') }}">Administrador</a>
         </nav>
 
         <div class="content">
