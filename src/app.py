@@ -1,6 +1,7 @@
 from flask import Flask, flash, redirect, render_template, request, jsonify, url_for
+from sms import SMS
 
-
+from src.database.Administrador import Administrador
 from src.database.DatabaseConnection import DatabaseConnection
 from src.database.Medicos import Medico
 from src.database.Pacientes import Paciente
@@ -26,7 +27,7 @@ def inicio():
 
 @app.route('/especialistas')
 def especialistas():
-    
+
     especialistas_data = []
 
     # Conexion base de datos
@@ -64,10 +65,42 @@ def reservar_hora():
     modelo.create(data)
 
 
+    data_sms = {"especialidad": "urologo", "medico": "Eduardo Parra", "fecha": "10-10-2024", "hora": "12:15-13:15"}
+    mensaje_sms = SMS()
+    mensaje_sms.enviar_mensaje_usuariowsp(str(request.form.get('number')), data_sms)
+
     database.disconnect()
 
     print(data) # Imprimir en consola pa cachar :D
     return render_template('inicio.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+
+        diccionario = {'rut': request.form['rut'], 'password': request.form['password']}
+
+        database = DatabaseConnection(**database_config)
+        database.connect()
+
+        modelo = Administrador(database)
+        lista = modelo.read(diccionario)
+
+        database.disconnect()
+
+        if lista:  # Ejemplo de credenciales válidas
+            return redirect(url_for('administrador'))
+        else:
+            flash("Credenciales inválidas", "error")
+            return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+
+@app.route('/info')
+def info():
+    return render_template('info.html')
 
 
 @app.route('/administrador')
@@ -101,7 +134,8 @@ def webhook():
 
 
 
-    
+
 if __name__ == '__main__':
     app.run(debug=True)
+
 

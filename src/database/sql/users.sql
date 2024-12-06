@@ -24,6 +24,13 @@ CREATE TABLE info_medico(
 	descripcion varchar(400)
 );
 
+/* Tabla de las citas medicas */
+create table citas_medicas(
+	id_paciente INTEGER REFERENCES users(id) not null,
+	fecha DATE,
+	id_doctor INTEGER REFERENCES users(id) not null
+);
+
 /* COMANDO QUE PUEDEN SERVIR */
 
 /* Eliminar la tabla users*/
