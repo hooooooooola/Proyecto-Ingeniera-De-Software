@@ -1,4 +1,5 @@
 from flask import Flask, flash, redirect, render_template, request, jsonify, url_for
+from sms import SMS
 
 from src.database.Administrador import Administrador
 from src.database.DatabaseConnection import DatabaseConnection
@@ -63,6 +64,10 @@ def reservar_hora():
     modelo = Paciente(database)
     modelo.create(data)
 
+
+    data_sms = {"especialidad": "urologo", "medico": "Eduardo Parra", "fecha": "10-10-2024", "hora": "12:15-13:15"}
+    mensaje_sms = SMS()
+    mensaje_sms.enviar_mensaje_usuariowsp(str(request.form.get('number')), data_sms)
 
     database.disconnect()
 
@@ -131,7 +136,6 @@ def webhook():
 
 
 if __name__ == '__main__':
-
     app.run(debug=True)
 
 
