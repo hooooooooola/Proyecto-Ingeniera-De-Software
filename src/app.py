@@ -93,6 +93,11 @@ def login():
     return render_template('login.html')
 
 
+@app.route('/info')
+def info():
+    return render_template('info.html')
+
+
 @app.route('/administrador')
 def administrador():
     return render_template('administrador.html')
