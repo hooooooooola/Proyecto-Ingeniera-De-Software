@@ -12,24 +12,25 @@ class SMS:
         self.api_key = API_KEY
         self.api_secret = API_SECRET
 
-    def enviar_mensaje_usuariosms(self, numero: str):
+    def enviar_mensaje_usuariosms(self, numero: str, data: dict):
         # Crear cliente Vonage
-        client = vonage.Client(key=API_KEY, secret=API_SECRET)
+        client = vonage.Client(key=self.api_key, secret=self.api_secret)
         sms = vonage.Sms(client)
+
+        numero_paciente = "56" + numero
 
         # Enviar mensaje de texto
         responseData = sms.send_message(
             {
                 "from": "Vonage APIs",
-                "to": numero,
+                "to": numero_paciente,
                 "text":(
-                "Hola.\nTe recordamos que tienes una cita médica programada el dia XX XX/XX/XXXX.\n"
-                "Médico Asignado: Dr. Nombre Apellido1\n"
-                "Especialidad: XXXXXXXologo\n"
-                "Lugar: Clinica TAL TAL\n"
+                f"Hola.\nTe recordamos que tienes una cita médica programada el dia {data.get('fecha')}.\n"
+                f"Médico Asignado: Dr. {data.get('medico')}\n"
+                f"Especialidad: {data.get('especialidad')}\n"
+                "Lugar: Clinica Salud\n"
                 "Hora: XX:XX\n"
-                "-Para confirmar su asistencia puede ingresar al siguiente link\n"
-                "-Alternativamente puede llamar al siguiente numero\n"
+                "En caso de algun problema, contactar al siguiente número:\n"
                 " +56937135522 \n\n"
                 ),
             }
@@ -63,8 +64,7 @@ class SMS:
                 f"*Especialidad:* {data.get('especialidad')}\n"
                 "*Lugar:* Clinica Salud\n"
                 f"*Hora: {data.get('hora')}\n"
-                "*¿Confirmas tú asistencia?*\n\n"
-                "Responde con *'Sí'* para confirmar o *'No'* para cancelar."
+                "No responder mensaje."
             ),
             "channel": "whatsapp"
         }
